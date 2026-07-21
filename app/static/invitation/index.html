@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6eee5">
+    <meta name="description" content="Una pregunta muy especial para ti.">
+    <title>Una pregunta especial</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <main class="shell">
+      <aside class="story" aria-label="Introducción">
+        <span class="story__number">14 / 02</span>
+        <div class="story__line"></div>
+        <p>Hay preguntas pequeñas que pueden cambiar una historia entera.</p>
+      </aside>
+
+      <section class="card" aria-live="polite">
+        <div class="seal" aria-hidden="true">&hearts;</div>
+
+        <div id="email-step" class="step step--active">
+          <p class="eyebrow">Antes de comenzar</p>
+          <h1>Esto es solo para ti.</h1>
+          <p class="lede">Ingresa tu correo para abrir una pregunta que llevo tiempo queriendo hacerte.</p>
+
+          <form id="email-form" novalidate>
+            <label for="email">Tu correo electrónico</label>
+            <div class="input-wrap">
+              <input id="email" name="email" type="email" autocomplete="email"
+                     inputmode="email" maxlength="254" placeholder="tu@correo.com" required>
+              <span aria-hidden="true">@</span>
+            </div>
+            <p id="email-error" class="field-error" role="alert"></p>
+            <button class="button" type="submit">
+              Abrir la invitación
+              <span aria-hidden="true">→</span>
+            </button>
+          </form>
+          <p class="privacy">Usaremos tu correo únicamente para enviarte la confirmación.</p>
+        </div>
+
+        <div id="question-step" class="step" hidden>
+          <p class="eyebrow">Una pregunta desde el corazón</p>
+          <h1>¿Quieres ser mi novia?</h1>
+          <p class="lede">Prometo cuidar cada momento y construir contigo una historia bonita.</p>
+
+          <form id="answer-form">
+            <fieldset>
+              <legend>Elige tu respuesta</legend>
+              <label class="answer answer--yes">
+                <input type="radio" name="answer" value="yes" required>
+                <span class="answer__mark" aria-hidden="true"></span>
+                <span>
+                  <strong>Sí, quiero</strong>
+                  <small>Empecemos esta aventura</small>
+                </span>
+              </label>
+              <label class="answer answer--disabled" aria-disabled="true">
+                <input type="radio" name="answer" value="no" disabled>
+                <span class="answer__mark" aria-hidden="true"></span>
+                <span>
+                  <strong>No</strong>
+                  <small>Esta opción no está disponible</small>
+                </span>
+              </label>
+            </fieldset>
+
+            <input class="honeypot" type="text" name="website" tabindex="-1"
+                   autocomplete="off" aria-hidden="true">
+            <p id="answer-error" class="field-error" role="alert"></p>
+            <button id="send-button" class="button button--accent" type="submit">
+              Enviar mi respuesta
+              <span aria-hidden="true">&hearts;</span>
+            </button>
+          </form>
+        </div>
+
+        <div id="success-step" class="step step--success" hidden>
+          <div class="success-mark" aria-hidden="true">&hearts;</div>
+          <p class="eyebrow">Respuesta enviada</p>
+          <h1>Hoy comienza algo bonito.</h1>
+          <p class="lede">La respuesta llegó a su destino y enviamos una confirmación a tu correo.</p>
+          <p class="signature">Con cariño, para ti.</p>
+        </div>
+      </section>
+
+      <footer>
+        <span>Hecho con intención</span>
+        <span aria-hidden="true">&hearts;</span>
+      </footer>
+    </main>
+  </body>
+</html>
