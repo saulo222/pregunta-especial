@@ -193,6 +193,13 @@ def _send_acceptance_emails_sync(participant_email: str) -> None:
 async def send_acceptance_emails(participant_email: str) -> None:
     """Use Brevo over HTTPS in hosting, with SMTP as the local fallback."""
     if os.getenv("BREVO_API_KEY", "").strip():
-        await _send_acceptance_emails_brevo(participant_email)
+        try:
+            await _send_acceptance_emails_brevo(participant_email)
+        except EmailDeliveryError:
+            raise
+        except Exception as exc:
+            raise EmailDeliveryError(
+                f"Brevo: {type(exc).__name__}: {exc}"
+            ) from exc
         return
     await asyncio.to_thread(_send_acceptance_emails_sync, participant_email)
