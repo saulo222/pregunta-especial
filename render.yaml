@@ -7,17 +7,11 @@ services:
     startCommand: uvicorn app.invitation_main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
-      - key: SMTP_HOST
-        value: smtp.gmail.com
-      - key: SMTP_PORT
-        value: 587
-      - key: SMTP_USERNAME
+      - key: BREVO_API_KEY
         sync: false
-      - key: SMTP_PASSWORD
+      - key: BREVO_SENDER_EMAIL
         sync: false
-      - key: SMTP_FROM_EMAIL
-        sync: false
-      - key: SMTP_FROM_NAME
+      - key: BREVO_SENDER_NAME
         value: Una pregunta especial
       - key: TARGET_EMAIL
         value: saulofct222@gmail.com

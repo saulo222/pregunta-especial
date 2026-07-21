@@ -32,13 +32,15 @@ Las pruebas simulan el envío, por lo que no mandan correos reales.
 
 ## Desplegar en Render
 
-1. Publica el proyecto en un repositorio de GitHub.
-2. En Render, crea un Blueprint y selecciona el repositorio. Render detectará
+1. Crea una cuenta gratuita en Brevo y verifica una dirección remitente.
+2. Genera una API key en Brevo desde SMTP & API > API Keys.
+3. En Render, crea un Blueprint y selecciona el repositorio. Render detectará
    `render.yaml`.
-3. Ingresa los secretos solicitados: `SMTP_USERNAME`, `SMTP_PASSWORD` y
-   `SMTP_FROM_EMAIL`.
-4. Finaliza el despliegue y abre la URL `onrender.com` asignada.
+4. Ingresa `BREVO_API_KEY` y el remitente verificado en `BREVO_SENDER_EMAIL`.
+5. Finaliza el despliegue y abre la URL `onrender.com` asignada.
 
 El plan gratuito de Render puede suspender el servicio después de un periodo sin
 tráfico, por lo que la primera apertura posterior puede tardar alrededor de un
 minuto. No guardes contraseñas reales en `.env.example`, GitHub ni `render.yaml`.
+Render Free bloquea los puertos SMTP, por eso el despliegue usa la API HTTPS de
+Brevo. El SMTP de Gmail queda disponible únicamente como alternativa local.
