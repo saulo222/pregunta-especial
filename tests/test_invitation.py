@@ -3,6 +3,7 @@ from unittest.mock import AsyncMock, patch
 
 from fastapi.testclient import TestClient
 
+from app.invitation.email_service import EmailDeliveryError
 from app.invitation_main import app, email_limiter, ip_limiter
 
 
@@ -35,6 +36,18 @@ class InvitationAppTests(unittest.TestCase):
         )
 
         self.assertEqual(response.status_code, 422)
+
+    @patch("app.invitation_main.send_acceptance_emails", new_callable=AsyncMock)
+    def test_provider_error_is_reported_safely(self, send_mock: AsyncMock) -> None:
+        send_mock.side_effect = EmailDeliveryError("Brevo (401): Key not found")
+
+        response = self.client.post(
+            "/api/invitation/respond",
+            json={"email": "persona@example.com", "answer": "yes"},
+        )
+
+        self.assertEqual(response.status_code, 502)
+        self.assertEqual(response.json()["detail"], "Brevo (401): Key not found")
 
     def test_no_answer_is_rejected(self) -> None:
         response = self.client.post(

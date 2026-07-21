@@ -11,6 +11,7 @@ from pydantic import BaseModel, field_validator
 
 from app.invitation.email_service import (
     EmailConfigurationError,
+    EmailDeliveryError,
     send_acceptance_emails,
 )
 
@@ -107,6 +108,11 @@ async def respond(payload: InvitationResponse, request: Request) -> dict[str, st
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="El servicio de correo aún no está configurado.",
+        ) from exc
+    except EmailDeliveryError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=str(exc),
         ) from exc
     except Exception as exc:
         raise HTTPException(

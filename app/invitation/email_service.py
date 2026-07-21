@@ -17,6 +17,10 @@ class EmailConfigurationError(RuntimeError):
     """Raised when the selected email provider is not configured."""
 
 
+class EmailDeliveryError(RuntimeError):
+    """Raised when an email provider rejects a delivery request."""
+
+
 async def _send_acceptance_emails_brevo(participant_email: str) -> None:
     api_key = os.getenv("BREVO_API_KEY", "").strip()
     sender = os.getenv("BREVO_SENDER_EMAIL", "").strip()
@@ -85,7 +89,14 @@ async def _send_acceptance_emails_brevo(participant_email: str) -> None:
                 headers=headers,
                 json=message,
             )
-            response.raise_for_status()
+            if response.is_error:
+                try:
+                    provider_message = response.json().get("message", "Error desconocido")
+                except ValueError:
+                    provider_message = "Respuesta no valida del proveedor"
+                raise EmailDeliveryError(
+                    f"Brevo ({response.status_code}): {provider_message}"
+                )
 
 
 def _build_message(
